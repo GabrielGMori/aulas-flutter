@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const Exercicio1(),
+      home: const Exercicio7(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -32,6 +32,7 @@ class Exercicio1 extends StatelessWidget {
     );
   }
 }
+
 
 class Exercicio2 extends StatelessWidget {
   const Exercicio2({super.key});
@@ -156,13 +157,14 @@ class Exercicio5 extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primaryContainer,
               ),
             ),
-            const Column(
-              spacing: 5,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text('Nome'), Text('Telefone')],
+            const Expanded(
+              child: Column(
+                spacing: 5,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text('Nome'), Text('Telefone')],
+              ),
             ),
-            const Spacer(),
             const Icon(Icons.phone, color: Colors.green, size: 30),
           ],
         ),
@@ -186,7 +188,7 @@ class Exercicio6 extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            color: Theme.of(context).colorScheme.surfaceContainer,
             borderRadius: const BorderRadius.all(Radius.circular(50)),
           ),
           child: const Row(
@@ -219,7 +221,7 @@ class Exercicio7 extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondaryContainer,
+                color: Theme.of(context).colorScheme.surfaceContainer,
                 borderRadius: const BorderRadius.all(Radius.circular(50)),
               ),
               child: const Row(
@@ -247,13 +249,14 @@ class Exercicio7 extends StatelessWidget {
                     color: Theme.of(context).colorScheme.primaryContainer,
                   ),
                 ),
-                const Column(
-                  spacing: 5,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text('Nome'), Text('Telefone')],
+                const Expanded(
+                  child: Column(
+                    spacing: 5,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text('Nome'), Text('Telefone')],
+                  ),
                 ),
-                const Spacer(),
                 const Icon(Icons.phone, color: Colors.green, size: 30),
               ],
             ),
