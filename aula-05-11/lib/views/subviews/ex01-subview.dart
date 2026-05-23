@@ -6,19 +6,12 @@ import 'package:flutter/services.dart';
 // mesma tela.Utilize o widget TextField e verifique como alterar o teclado para aceitar
 // somente valores numéricos.
 
-class Ex01 extends StatelessWidget {
-  const Ex01({super.key});
+class Ex01Subview extends StatelessWidget {
+  const Ex01Subview({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Exercício 1"),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        centerTitle: true,
-      ),
-      body: Padding(padding: const EdgeInsets.all(20), child: Somador()),
-    );
+    return Padding(padding: const EdgeInsets.all(20), child: Somador());
   }
 }
 
