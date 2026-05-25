@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Olá, seja bem-vindo!', textAlign: TextAlign.center),
-          Lottie.asset('assets/anim/mascot.json')
+          Lottie.asset('assets/anim/mascot.json'),
         ],
       ),
     );
@@ -47,36 +47,38 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Exercício 5"),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        centerTitle: true,
-      ),
-      body: currentPage,
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.all(8),
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              onPressed: () => setState(() => currentPage = HomePage()),
-              icon: Icon(Icons.home),
-            ),
-            IconButton(
-              onPressed: () => setState(() => currentPage = Ex01Subview()),
-              icon: Icon(Icons.calculate),
-            ),
-            IconButton(
-              onPressed: () => setState(() => currentPage = Ex02Subview()),
-              icon: Icon(Icons.handshake),
-            ),
-            IconButton(
-              onPressed: () => setState(() => currentPage = Ex03Subview()),
-              icon: Icon(Icons.text_fields),
-            ),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Exercício 5"),
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          centerTitle: true,
+        ),
+        body: currentPage,
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.all(8),
+          color: Theme.of(context).colorScheme.primaryContainer,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                onPressed: () => setState(() => currentPage = HomePage()),
+                icon: Icon(Icons.home),
+              ),
+              IconButton(
+                onPressed: () => setState(() => currentPage = Ex01Subview()),
+                icon: Icon(Icons.calculate),
+              ),
+              IconButton(
+                onPressed: () => setState(() => currentPage = Ex02Subview()),
+                icon: Icon(Icons.handshake),
+              ),
+              IconButton(
+                onPressed: () => setState(() => currentPage = Ex03Subview()),
+                icon: Icon(Icons.text_fields),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gabriel_11_05/views/ex01.dart';
-import 'package:gabriel_11_05/views/ex02.dart';
-import 'package:gabriel_11_05/views/ex03.dart';
-import 'package:gabriel_11_05/views/ex04.dart';
-import 'package:gabriel_11_05/views/ex05.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       debugShowCheckedModeBanner: false,
-      home: Ex05(),
+      home: Ex01(),
     );
   }
 }
-  

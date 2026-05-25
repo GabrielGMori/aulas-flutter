@@ -79,9 +79,11 @@ class _SaudacaoState extends State<Saudacao> {
               ),
             )
           : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Olá, ${_controllers['nomeUsuario']!.text}! Aqui está uma imagem para alegrar seu dia:',
+                  'Olá, ${_controllers['nomeUsuario']!.text}! Você está se sentindo ${_controllers['sentimento']!.text}, né? Aqui está uma imagem:',
+                  textAlign: TextAlign.center,
                 ),
                 Image.asset('assets/image/tijolo.png'),
                 ElevatedButton(
