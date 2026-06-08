@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gabriel_11_05/views/ex01.dart';
-import 'package:gabriel_11_05/views/ex02.dart';
-import 'package:gabriel_11_05/views/ex03.dart';
-import 'package:gabriel_11_05/views/ex04.dart';
-import 'package:gabriel_11_05/views/ex05.dart';
+import 'package:gabriel_11_05/views/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,10 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      title: 'Instagram Style App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true
+      ),
       debugShowCheckedModeBanner: false,
-      home: Ex05(),
+      home: HomePage(),
     );
   }
 }
