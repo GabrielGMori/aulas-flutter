@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:gabriel_11_05/models/post.dart';
+import 'package:gabriel_11_05/models/story.dart';
+import 'package:gabriel_11_05/views/components/color_picker_input.dart';
 
-class AddPost extends StatefulWidget {
-  const AddPost({super.key});
+class AddStory extends StatefulWidget {
+  const AddStory({super.key, this.currentText = "", this.currentColor});
+
+  final String currentText;
+  final Color? currentColor;
 
   @override
-  State<AddPost> createState() => _AddPostState();
+  State<AddStory> createState() => _AddStoryState();
 }
 
-class _AddPostState extends State<AddPost> {
+class _AddStoryState extends State<AddStory> {
   final _formKey = GlobalKey<FormState>();
-  final Map<String, String> _formFields = {
-    'title': 'Título do Post',
-    'text': 'Conteúdo do Post',
-  };
-  final Map<String, TextEditingController> _postControllers = {};
+
+  late TextEditingController _textController;
+  late Color selectedColor = widget.currentColor ?? Theme.of(context).colorScheme.inversePrimary;
 
   @override
   void initState() {
     super.initState();
-    for (String key in _formFields.keys) {
-      _postControllers[key] = TextEditingController();
-    }
+    _textController = TextEditingController(text: widget.currentText);
   }
 
   @override
@@ -39,10 +39,11 @@ class _AddPostState extends State<AddPost> {
         child: Form(
           key: _formKey,
           child: Column(
+            spacing: 20,
             children: [
-              for (var key in _formFields.keys) TextFormField(
-                controller: _postControllers[key],
-                decoration: InputDecoration(labelText: _formFields[key]),
+              TextFormField(
+                controller: _textController,
+                decoration: InputDecoration(labelText: "Texto do Story"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Este campo é obrigatório";
@@ -50,15 +51,19 @@ class _AddPostState extends State<AddPost> {
                   return null;
                 },
               ),
+              ColorPickerInput(defaultColor: selectedColor, onColorChanged: (color) {
+                setState(() {
+                  selectedColor = color;
+                });
+              }, label: "Cor do Story"),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(
                       context,
                     ).showSnackBar(const SnackBar(content: Text("Salvando")));
-                    String title = _postControllers['title']!.value.text;
-                    String text = _postControllers['text']!.value.text;
-                    Navigator.pop(context, [Post(title: title, text: text)]);
+                    String text = _textController.value.text;
+                    Navigator.pop(context, [Story(text: text, color: selectedColor)]);
                   }
                 },
                 child: Text("Salvar"),

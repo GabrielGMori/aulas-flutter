@@ -7,3 +7,4 @@ ex-aula-*.zip
 ex-aula-*.rar
 .dart_tool
 .flutter-plugins-dependencies
+pubspec.lock
