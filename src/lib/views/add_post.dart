@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gabriel_11_05/database/post_dao.dart';
 import 'package:gabriel_11_05/models/post.dart';
 
 class AddPost extends StatefulWidget {
@@ -68,23 +69,28 @@ class _AddPostState extends State<AddPost> {
                   },
                 ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(const SnackBar(content: Text("Salvando")));
+                    String newTitle = _postControllers['title']!.value.text;
+                    String newText = _postControllers['text']!.value.text;
+
                     if (widget.post == null) {
-                      Navigator.pop(context, [
-                        Post(
-                          title: _postControllers['title']!.value.text,
-                          text: _postControllers['text']!.value.text,
-                        ),
-                      ]);
+                      await PostDao.instance.add(
+                        Post(title: newTitle, text: newText),
+                      );
+                    } else {
+                      widget.post!.title = newTitle;
+                      widget.post!.text = newText;
+                      await PostDao.instance.update(widget.post!);
+                    }
+
+                    if (!context.mounted) {
                       return;
                     }
 
-                    widget.post?.title = _postControllers['title']!.value.text;
-                    widget.post?.text = _postControllers['text']!.value.text;
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(const SnackBar(content: Text("Salvando")));
                     Navigator.pop(context);
                   }
                 },

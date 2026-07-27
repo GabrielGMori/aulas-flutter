@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gabriel_11_05/database/post_dao.dart';
 import 'package:gabriel_11_05/models/post.dart';
 import 'package:gabriel_11_05/views/add_post.dart';
 
@@ -33,7 +34,8 @@ class _PostItemState extends State<PostItem> {
         subtitle: Text(widget.post.text, style: const TextStyle(fontSize: 15)),
         onTap: () {
           setState(() {
-            widget.post.liked = !widget.post.liked;
+            widget.post.like();
+            PostDao.instance.update(widget.post);
           });
         },
         trailing: Wrap(

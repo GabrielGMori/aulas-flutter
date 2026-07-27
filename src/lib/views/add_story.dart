@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gabriel_11_05/database/story_dao.dart';
 import 'package:gabriel_11_05/models/story.dart';
 import 'package:gabriel_11_05/views/components/color_picker_input.dart';
 
@@ -62,11 +63,11 @@ class _AddStoryState extends State<AddStory> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(const SnackBar(content: Text("Salvando")));
-                    String text = _textController.value.text;
-                    Navigator.pop(context, [Story(text: text, color: selectedColor)]);
+                    String newText = _textController.value.text;
+                    StoryDao.instance.add(Story(text: newText, color: selectedColor));
+
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Salvando")));
+                    Navigator.pop(context);
                   }
                 },
                 child: Text("Salvar"),
