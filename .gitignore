@@ -5,6 +5,7 @@ test
 windows
 ex-aula-*.zip
 ex-aula-*.rar
+aula-*.zip
 .dart_tool
 .flutter-plugins-dependencies
 pubspec.lock
