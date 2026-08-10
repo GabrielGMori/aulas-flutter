@@ -21,9 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print('big time!');
   }
 
   @override

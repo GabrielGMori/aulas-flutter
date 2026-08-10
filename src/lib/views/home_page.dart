@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gabriel_11_05/database/post_dao.dart';
-import 'package:gabriel_11_05/database/story_dao.dart';
-import 'package:gabriel_11_05/models/post.dart';
-import 'package:gabriel_11_05/models/story.dart';
-import 'package:gabriel_11_05/views/add_post.dart';
-import 'package:gabriel_11_05/views/components/add_story_button.dart';
-import 'package:gabriel_11_05/views/components/post_item.dart';
-import 'package:gabriel_11_05/views/components/story_item.dart';
-import 'package:path/path.dart';
+import 'package:gabrel_projeto_flutter/database/treino_dao.dart';
+import 'package:gabrel_projeto_flutter/views/treino_form.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,102 +10,72 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void deletePost(Post post) {}
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('big time!');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Instagram Style APP"),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        leading: Icon(
+          Icons.fitness_center,
+          color: Theme.of(context).colorScheme.onPrimaryContainer,
+        ),
+        title: Text(
+          "Stronger",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
+        ),
+        centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Theme.of(context).colorScheme.surface,
-            height: 150,
-            child: FutureBuilder(
-              future: StoryDao.instance.getStories(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                } else if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text("Treinos", style: Theme.of(context).textTheme.headlineMedium),
+            Expanded(
+              child: FutureBuilder(
+                future: TreinoDao.instance.getTreinos(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        snapshot.error.toString(),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    );
+                  } else if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "Nenhum treino encontrado",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    );
+                  }
 
-                return ListView.builder(
-                  itemCount: snapshot.data!.length + 1,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return AddStoryButton(
-                        onAdd: () {
-                          setState(() {});
-                        },
-                      );
-                    } else {
-                      return StoryItem(
-                        story: snapshot.data![index - 1],
-                        onUpdate: () {
-                          setState(() {});
-                        },
-                      );
-                    }
-                  },
-                );
-              },
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return Text(index.toString());
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-          Expanded(
-            child: FutureBuilder(
-              future: PostDao.instance.getPosts(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                } else if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
-
-                return snapshot.data!.isEmpty
-                    ? const Center(child: Text('Nenhum post encontrado'))
-                    : ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          Post currentPost = snapshot.data![index];
-                          return Padding(
-                            padding: EdgeInsets.all(8),
-                            child: PostItem(
-                              post: currentPost,
-                              deleteItem: () => {
-                                setState(() {
-                                  PostDao.instance.remove(currentPost);
-                                }),
-                              },
-                            ),
-                          );
-                        },
-                      );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddPost()),
+            MaterialPageRoute(builder: (context) => TreinoForm()),
           );
           setState(() {});
         },
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
       ),
     );
   }

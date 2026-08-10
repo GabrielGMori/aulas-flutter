@@ -23,19 +23,12 @@ class DatabaseHelper {
 
   Future _createDb(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE posts (
+      CREATE TABLE treinos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
-        text TEXT NOT NULL,
-        liked INTEGER NOT NULL
-      );
-    ''');
-    await db.execute('''
-      CREATE TABLE stories (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        text TEXT NOT NULL,
-        color TEXT NOT NULL,
-        blocked INTEGER NOT NULL
+        exercicios INTEGER NOT NULL,
+        setsPorExercicio INTEGER NOT NULL,
+        realizado INTEGER NOT NULL
       );
     ''');
   }
