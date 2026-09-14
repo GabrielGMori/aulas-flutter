@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gabrel_projeto_flutter/views/home_page.dart';
+import 'package:gabriel_11_05/views/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stronger',
+      title: 'Instagram Style App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 0, 0)),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true
       ),
       debugShowCheckedModeBanner: false,

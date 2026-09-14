@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gabrel_projeto_flutter/database/treino_dao.dart';
-import 'package:gabrel_projeto_flutter/models/treino.dart';
-import 'package:gabrel_projeto_flutter/views/components/treino_item.dart';
-import 'package:gabrel_projeto_flutter/views/treino_form.dart';
+import 'package:gabriel_11_05/database/post_dao.dart';
+import 'package:gabriel_11_05/database/story_dao.dart';
+import 'package:gabriel_11_05/models/post.dart';
+import 'package:gabriel_11_05/views/posts/add_post.dart';
+import 'package:gabriel_11_05/views/components/add_story_button.dart';
+import 'package:gabriel_11_05/views/components/post_item.dart';
+import 'package:gabriel_11_05/views/components/story_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,109 +15,100 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void onRealizado(Treino treino) async {
-    TreinoDao.instance.update(treino);
-    setState(() {});
-  }
+  void deletePost(Post post) {}
 
-  void onEdit(Treino treino) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => TreinoForm(treino: treino)),
-    );
-    setState(() {});
-  }
-
-  void onDelete(Treino treino) async {
-    TreinoDao.instance.remove(treino);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Treino removido!"),
-        duration: Durations.extralong4,
-      ),
-    );
-
-    setState(() {});
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text("Instagram Style APP"),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        leading: Icon(
-          Icons.fitness_center,
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
-        title: Text(
-          "Stronger",
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
-          ),
-        ),
-        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text("Treinos", style: Theme.of(context).textTheme.headlineMedium),
-            SizedBox(height: 15),
-            Expanded(
-              child: FutureBuilder(
-                future: TreinoDao.instance.getTreinos(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        snapshot.error.toString(),
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    );
-                  } else if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Text(
-                        "Nenhum treino encontrado",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    );
-                  }
+      body: Column(
+        children: [
+          Container(
+            color: Theme.of(context).colorScheme.surface,
+            height: 150,
+            child: FutureBuilder(
+              future: StoryDao.all(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                } else if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
 
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      Treino treino = snapshot.data![index];
-
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: TreinoItem(
-                          treino: treino,
-                          onRealizado: onRealizado,
-                          onEdit: onEdit,
-                          onDelete: onDelete,
-                        ),
+                return ListView.builder(
+                  itemCount: snapshot.data!.length + 1,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return AddStoryButton(
+                        onAdd: () {
+                          setState(() {});
+                        },
                       );
-                    },
-                  );
-                },
-              ),
+                    } else {
+                      return StoryItem(
+                        story: snapshot.data![index - 1],
+                        onUpdate: () {
+                          setState(() {});
+                        },
+                      );
+                    }
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future: PostDao.all(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                } else if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+
+                return snapshot.data!.isEmpty
+                    ? const Center(child: Text('Nenhum post encontrado'))
+                    : ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          Post currentPost = snapshot.data![index];
+                          return Padding(
+                            padding: EdgeInsets.all(8),
+                            child: PostItem(
+                              post: currentPost,
+                              deleteItem: () => {
+                                setState(() {
+                                  PostDao.remove(currentPost);
+                                }),
+                              },
+                            ),
+                          );
+                        },
+                      );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => TreinoForm()),
+            MaterialPageRoute(builder: (context) => const AddPost()),
           );
           setState(() {});
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
