@@ -9,6 +9,7 @@ class ShowPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(post.id);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

@@ -8,6 +8,20 @@ class CommentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.red, child: Text('sdfds'),);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: ListTile(
+        leading: Icon(
+          Icons.person,
+          color: Theme.of(context).colorScheme.onSecondaryContainer,
+        ),
+        tileColor: Theme.of(context).colorScheme.secondaryContainer,
+        title: Text(comment.text),
+        titleTextStyle: TextStyle(
+          fontSize: 16,
+          color: Theme.of(context).colorScheme.onSecondaryContainer,
+        ),
+      ),
+    );
   }
 }

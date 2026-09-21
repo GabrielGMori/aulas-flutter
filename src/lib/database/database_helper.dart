@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -10,7 +7,7 @@ class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   static Database? _database;
-  static const int _version = 5;
+  static const int _version = 7;
   static const String _dbName = 'instagram_db.db';
 
   Future<Database> get database async => _database ??= await _initDatabase();
@@ -58,6 +55,11 @@ class DatabaseHelper {
   }
 
   Future _upgradeDb(Database db, int oldVersion, int newVersion) async {
+    await db.execute('''
+      DROP TABLE posts;
+      DROP TABLE stories;
+      DROP TABLE comments;
+    ''');
     _createDb(db, newVersion);
   }
 }

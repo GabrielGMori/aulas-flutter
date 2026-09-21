@@ -44,27 +44,26 @@ class _PostCommentsState extends State<PostComments> {
               ),
             ],
           ),
-          Expanded(
-            child: FutureBuilder(
-              future: CommentDao.getCommentsByPost(widget.post.id!),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                } else if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
-            
-                return snapshot.data!.isEmpty
-                    ? Text('Nenhum comentário disponível')
-                    : ListView.builder(
+          FutureBuilder(
+            future: CommentDao.getCommentsByPost(widget.post.id!),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              } else if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              }
+          
+              return snapshot.data!.isEmpty
+                  ? Text('Nenhum comentário disponível')
+                  : ListView.builder(
+                    shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         Comment currentComment = snapshot.data![index];
                         return CommentItem(comment: currentComment);
                       },
                     );
-              },
-            ),
+            },
           ),
         ],
       ),
